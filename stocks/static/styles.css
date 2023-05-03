@@ -1,0 +1,123 @@
+/* styles.css */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #251111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  }
+  
+  h1 {
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  }
+  
+  
+  
+  button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 20px;
+  }
+  
+  button[type="submit"]:hover {
+  background-color: #81d20f;
+  }
+
+
+  nav {
+    background-color: #201616;
+    color: #df6060;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  .navbar {
+    display: flex;
+    align-items: center;
+    background-color: #0cb17a;
+    color: black;
+    padding: 20px;
+    width: 100%;
+    justify-content: space-between; /* Add this line */
+  }
+  
+  .navbar a {
+    color: white;
+    text-decoration: none;
+    flex-grow: 1;
+    text-align: left;
+    padding: 20px;
+  }
+  
+  
+
+  nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav ul li {
+    margin-right: 10px;
+  }
+  
+  nav ul li a {
+    color: #402020;
+    text-decoration: none;
+  }
+  
+  
+  
+  
+
+
+.footer {
+  background-color: #0cb17a;
+  color: rgb(19, 18, 18);
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%; /* Make footer end to end */
+}
+  
+  #refresh-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  }
+  
+  #refresh-button:hover {
+  background-color: #0062cc;
+  }
+
+.predictions-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  margin: auto;
+  width: 50%;
+  
+}
+
+.predictions-list li {
+  margin-bottom: 10px;
+}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load static %}
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <style>
+                .container {
+                    text-align: center;
+                    margin: 0 auto;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                } 
+                .predictions-list {
+                    margin-top: 50px;
+                }
+                .graph-col {
+                    padding-right: 20px;
+                }
+            </style>
+            
+            <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+            <title>Stock Form</title>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        </head>
+        <body>
+            <h1>Price Prediction</h1>
+            <div class="container" style="margin-right: 50px;">
+                <form id="stock-form" method="post">
+                    {% csrf_token %}
+                    <label for="stock_name">Stock Name:</label>
+                    <input type="text" name="stock_name" id="stock_name">
+                    
+                    <label for="num_days">Number of Days:</label>
+                    <input type="text" name="num_days" id="num_days">
+                    
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+            <br>
+            
+            
+
+            {% if graph %}
+            <div class="container" style="margin-right: 50px; ">
+                <div class="row">
+                    <div class="col-md-8">
+                        <img src="data:image/png;base64,{{ graph }}" alt="Plotly Graph">
+                    </div>
+                    <div class="col-md-4">
+            
+                        
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+                
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        </body>
+    </html>
+{% endblock %}

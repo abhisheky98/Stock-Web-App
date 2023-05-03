@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .container {
+            text-align: center;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+        #stock-form {
+            margin-bottom: 20px;
+          }
+        
+        .graph-container {
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 45%;
+            margin: 10px 50px;
+            margin-bottom: 100px; /* Add margin to the bottom */
+          }
+        
+        .description-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 45%;
+            margin: 10px 50px;
+            padding-bottom: 20px;
+          }
+    </style>
+</head>
+<body>
+    <h1>Trend graph  {{ stock_name }}</h1>
+    <div class="container">
+    
+    <form id="stock-form" method="post">
+        {% csrf_token %}
+        <label for="stock-name">Stock Name:</label>
+        <input type="text" id="stock-name" name="stock_name">
+        <label for="time-period">Time Period:</label>
+        <select id="time-period" name="time_period">
+            <option value="1mo">1 Month</option>
+            <option value="3mo">3 Months</option>
+            <option value="6mo">6 Months</option>
+            <option value="1y">1 Year</option>
+            <option value="2y">2 Years</option>
+            <option value="5y">5 Years</option>
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+    </div>
+    <div class="container">
+        <div class="graph-container" id="graph-container1"></div>
+        <div class="description-container" id="description-container1"></div>
+    </div>
+    <div id="summary-container"></div>
+    <div style="clear: both;"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#stock-form').on('submit', function(event) {
+                event.preventDefault();
+                var form_data = $(this).serialize();
+                $.ajax({
+                    url: '/trend-graph/',
+                    type: 'POST',
+                    data: form_data,
+                    dataType: 'json',
+                    beforeSend: function() {
+                        $('#graph-container').html('<p>Loading...</p>');
+                        $('#summary-container').html('');
+                    },
+                    success: function(data) {
+                        var graph1_image = '<img src="data:image/png;base64,' + data.graph1 + '">';
+                        var graph2_image = '<img src="data:image/png;base64,' + data.graph2 + '">';
+                        var graph3_image = '<img src="data:image/png;base64,' + data.graph3 + '">';
+
+                        // Add description beside each graph
+                        var graph1_desc = '<p><br><br><br><br><br><br><br>The closing price of a stock is an important metric to consider when predicting its future performance because it reflects the final price at which the stock was traded for that day. This information provides valuable insight into investor sentiment and market trends over time.<br><br><br>In general, a rising closing price over an extended period of time can indicate that the company is performing well, which may result in future growth and an increase in stock price. Conversely, a declining closing price may indicate that the company is struggling, which could lead to a decrease in stock price.<br><br><br>><br><br><br></p>';
+                        var graph2_desc = '<p>Moving average is another important indicator used in predicting stock prices. A moving average is a calculation that takes the average price of a stock over a certain period of time, usually 50 or 200 days. By doing so, it smooths out the fluctuations in price and provides a clearer picture of the overall trend. When the price of a stock is above its moving average, it is considered to be in an uptrend, while when it is below the moving average, it is considered to be in a downtrend. Traders use moving averages to identify buy and sell signals, as well as to determine the level of support and resistance in a stock..<br><br><br><br><br><br><br><br><br><br><br><br></p>';
+                        var graph3_desc = '<p>Volume is also an important factor when it comes to predicting stock prices. Volume refers to the number of shares that are traded during a certain period of time. High volume is generally seen as an indication of strong investor interest in a stock, while low volume can indicate that investors are not very interested in the stock. High volume can also be an indication of a trend reversal, as it suggests that a large number of investors are buying or selling the stock. Traders use volume as a confirmation tool for technical analysis and to identify potential price movements. In addition, volume can also provide insights into market sentiment and the strength of a trend.<br><br><br><br><br><br></p>';
+
+                        $('#graph-container1').html(graph1_image + '<br>' + graph2_image + '<br>' + graph3_image);
+                        $('#description-container1').html(graph1_desc + '<br>' + graph2_desc + '<br>' + graph3_desc);
+                        $('#summary-container').html(data.summary);
+                    },
+                    error: function() {
+                        $('#graph-container').html('<p>Error</p>');
+                        $('#summary-container').html('');
+                    }
+                });
+            });
+        });
+    </script>
+    {% endblock %}
+    
+</body>
+</html>

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+<br>
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Web App</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+	<!-- Add Bootstrap stylesheet -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	
+
+	<style>
+		.header {
+			background-color: black;
+			background-image: url("https://media.giphy.com/media/VV39rWFojtqYD0UlHY/giphy.gif");
+			background-repeat: no-repeat;
+			opacity: 0.85;
+			text-align: center;
+			position: center;
+			height: 0%;
+			width: 100%;
+			background-position: center center;
+			padding-bottom: 9.25%;
+		  }
+		
+		.header h1, .header p {
+			color: #fff;
+			text-shadow: 1px 1px 1px #000;
+		}
+		
+		.button-wrapper {
+			position: absolute;
+			bottom: 150px;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+		.button-wrapper button {
+			margin-right: 20px;
+		}
+	</style>
+</head>
+<body>
+	
+
+	<!-- Add header section with background image and paragraph -->
+	<div class="header">
+		<br>
+		
+		<h1>Welcome to My Web App</h1>
+		<p>This web app offers real-time stock data and displays stock graphs to help users make informed investment decisions.<br> It also provides powerful tools for users to compare trends of multiple stocks and predict stock prices. With these features, users can easily track the performance of their investments and make informed decisions based on accurate and up-to-date information<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>.</p>
+		<!-- Add buttons section -->
+		<div class="button-wrapper d-flex justify-content-between">
+			<form method="GET" action="trend-graph/">
+				<button type="submit" style="width: 200px; height: 70px;">Show Trend Graph for a Stock</button>
+			</form>
+			<form method="GET" action="multiple-trend-graph/">
+				<button type="submit" style="width: 200px; height: 70px;">Compare Trends of Multiple Stocks</button>
+			</form>
+			<form method="GET" action="predict-stock/">
+				<button type="submit" style="width: 200px; height: 70px;">Predict Stock Price</button>
+			</form>
+		</div>
+		{% endblock %}
+
+        
+        
+
+        
+    </div>
+
+    
+    
+    </body>
+    </html>
+    
+    
+    
+    
+    
+    

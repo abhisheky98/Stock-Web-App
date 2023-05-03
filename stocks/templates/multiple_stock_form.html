@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    <title>Stock Comparison Form</title>
+    <style>
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            text-align: center;
+        }
+        .graph-container, .description-container {
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 47%;
+            margin: 2px 2px;
+            margin-bottom: 100px; /* Add margin to the bottom */
+          }
+        
+        
+          .description-container {
+            margin-left: 10px;
+            margin-right: 50px;
+            
+          }
+       
+    </style>
+</head>
+<body>
+    <div class="container">
+    <h1>Trend Graphs Comparison</h1>
+    <form id="stock-form" method="post">
+        {% csrf_token %}
+        <label for="stock-name1">Stock 1 :</label>
+        <input type="text" id="stock-name1" name="stock_name1">
+        <label for="stock-name2">Stock 2 :</label>
+        <input type="text" id="stock-name2" name="stock_name2">
+        <label for="time-period">Time Period:</label>
+        <select id="time-period" name="time_period">
+            <option value="1mo">1 Month</option>
+            <option value="3mo">3 Months</option>
+            <option value="6mo">6 Months</option>
+            <option value="1y">1 Year</option>
+            <option value="2y">2 Years</option>
+            <option value="5y">5 Years</option>
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+    </div>
+    <div class="container">
+        <div class="graph-container" id="graph-container"></div>
+        <div class="description-container" id="description-container"></div>
+    </div>
+    <div id="summary-container"></div>
+    <div style="clear: both;"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script>
+        
+        $(document).ready(function() {
+            $('#stock-form').on('submit', function(event) {
+                event.preventDefault();
+                var form_data = $(this).serialize();
+                $.ajax({
+                    url: '/multiple-trend-graph/',
+                    type: 'POST',
+                    data: form_data,
+                    dataType: 'json',
+                    beforeSend: function() {
+                        $('#graph-container').html('<p>Loading...</p>');
+                        $('#description-container').html('<p>Loading...</p>');
+                        $('#summary-container').html('');
+                    },
+                    success: function(data) {
+                        var graph_image1_1 = '<img src="data:image/png;base64,' + data.graph1_1 + '">';
+                        var graph_image1_2 = '<img src="data:image/png;base64,' + data.graph1_2 + '">';
+                        var graph_image1_3 = '<img src="data:image/png;base64,' + data.graph1_3 + '">';
+                        var graph_image2_1 = '<img src="data:image/png;base64,' + data.graph2_1 + '">';
+                        var graph_image2_2 = '<img src="data:image/png;base64,' + data.graph2_2 + '">';
+                        var graph_image2_3 = '<img src="data:image/png;base64,' + data.graph2_3 + '">';
+                        
+                        $('#graph-container').html(graph_image1_1 + '<br>' +graph_image1_2 + '<br>' + graph_image1_3);
+                        $('#description-container').html(graph_image2_1 + '<br>'+ graph_image2_2 + '<br>' + graph_image2_3);
+                        $('#summary-container').html(data.summary);
+                    },
+                    error: function() {
+                        $('#graph-container1').html('<p>Error</p>');
+                        $('#graph-container').html('<p>Error</p>');
+                        
+                    }
+                });
+            });
+        });
+        
+    </script>
+    {% endblock %}
+
+</body>
+</html>
